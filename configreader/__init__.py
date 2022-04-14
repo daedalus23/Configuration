@@ -38,5 +38,4 @@ class Configuration(Single, Multiple, object):
                 if self.path.split(".")[-1] in fileType:
                     self.singleFile = True
             if self.singleFile is None:
-                print(f"Could connect file to any file types, Please check '{self.path}'")
                 break
