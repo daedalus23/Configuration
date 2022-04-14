@@ -1,6 +1,6 @@
-import os
-
 from configreader import Configuration
+
+import os
 
 
 def main():
