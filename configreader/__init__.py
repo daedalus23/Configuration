@@ -22,6 +22,7 @@ class Configuration(Single, Multiple, object):
         :param path: --> str: Path given of config file or directory
         """
         self.path = path
+        self.get_working_dir()
         self._check_single_config()
         if self.singleFile:
             self.load_single(self.path)

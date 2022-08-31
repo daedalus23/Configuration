@@ -2,10 +2,19 @@ from configparser import SafeConfigParser
 from configparser import ConfigParser
 from .baseconfiguration import BaseConfiguration
 
-import os
-
 
 __all__ = ["Single"]
+
+
+#   TODO:
+#       Add content does not work; need to standardize input
+#       format I.E. (json, dict) or something that makes
+#       more sense.
+#   TODO:
+#       Would also like to implement way to load in int &
+#       str versions of config file values, might be too much
+#       to try and do byte and hex data but possibly if an
+#       easy way can be figured out.
 
 
 """
@@ -25,8 +34,7 @@ class Single(BaseConfiguration):
 
     def load_single(self, path):
         """Load single configuration file"""
-        self._singlePath, self._singleFileName = self.parse_path(path)
-        self._singleFullPath = rf"{self._singlePath}{self._singleFileName}"
+        self._singleFullPath = path
         self._single_load_content()
 
     def add_content(self, newContent):
@@ -38,11 +46,10 @@ class Single(BaseConfiguration):
 
     def _single_load_content(self):
         """Load content from config file & return dict."""
-        os.chdir(self._singlePath)
         self._single_load_sections()
         parser = SafeConfigParser()
         parser.optionxform = str
-        found = parser.read(self._singleFileName)
+        found = parser.read(rf"{self.workingDir}\{self._singleFullPath}")
         if not found:
             raise ValueError('No config file found!')
         for name in self.sections:
@@ -55,10 +62,10 @@ class Single(BaseConfiguration):
 
     def _single_read_file(self):
         """Read file from path and return content."""
-        with open(self._singleFileName, "r") as file:
+        with open(rf"{self.workingDir}\{self._singleFullPath}", "r") as file:
             self._ConfigObj.read_file(file)
 
     def _single_write_file(self):
         """Writes ConfigObj to class INI file"""
-        with open(f"{os.curdir}{self._singleFullPath}", "w") as file:
+        with open(rf"{self.workingDir}\{self._singleFullPath}", "w") as file:
             self._ConfigObj.write(file)

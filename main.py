@@ -1,21 +1,16 @@
 from configreader import Configuration
 
-import os
-
 
 def main():
 
     #   Single config file load
     singleConfig = Configuration(r".\test data\config.ini")
-    print(singleConfig.content["USERINFO"]["admin"])
-
-    #   Have to switch back to main.py directory to run both tests at same time.
-    os.chdir("..\\")
+    print()
 
     #   Multiple config file load
-    multiConfig = Configuration(r"test data")
-    for keys in multiConfig.multiContent:
-        print(multiConfig.multiContent[keys].values())
+    # multiConfig = Configuration(r"test data")
+    # for keys in multiConfig.multiContent:
+    #     print(multiConfig.multiContent[keys].values())
 
 
 if __name__ == "__main__":

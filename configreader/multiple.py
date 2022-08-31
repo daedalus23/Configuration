@@ -60,7 +60,7 @@ class Multiple(BaseConfiguration):
         }
         return tempFile
 
-    def _check_multi_config(self):
+    def _create_multi_dict(self):
         """Check if path is directory of configuration files"""
         for file in os.listdir(self._multiDirectory):
             for fileType in Multiple.configFileTypes:
@@ -73,8 +73,8 @@ class Multiple(BaseConfiguration):
     def load_multi(self, path):
         """Load directory of config files"""
         self._multiDirectory = path
-        self._check_multi_config()
-        os.chdir(self._multiDirectory)
+        self._create_multi_dict()
+        # os.chdir(self._multiDirectory)
         for configFile in self._dirList:
             self._fileObject = configFile
             self._multi_load_content()
@@ -85,7 +85,7 @@ class Multiple(BaseConfiguration):
         self._multi_load_sections()
         parser = SafeConfigParser()
         parser.optionxform = str
-        found = parser.read(self._fileObject["fullFileName"])
+        found = parser.read(rf"{self.workingDir}\{self._fileObject['filePath']}")
         if not found:
             raise ValueError('No config file found!')
         for name in self.sections:
@@ -99,10 +99,10 @@ class Multiple(BaseConfiguration):
 
     def _multi_read_file(self):
         """Read file from path and return content."""
-        with open(self._fileObject["fullFileName"], "r") as file:
+        with open(rf"{self.workingDir}\{self._fileObject['filePath']}", "r") as file:
             self._ConfigObj.read_file(file)
 
     def _multi_write_file(self):
         """Writes ConfigObj to class INI file"""
-        with open(self._fileObject["fullFileName"], "w") as file:
+        with open(rf"{self.workingDir}\{self._fileObject['filePath']}", "w") as file:
             self._ConfigObj.write(file)

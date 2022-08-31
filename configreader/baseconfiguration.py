@@ -1,5 +1,7 @@
 from collections.abc import Iterable
 
+import os
+
 
 __all__ = ["BaseConfiguration"]
 
@@ -14,6 +16,7 @@ more file extensions can be loaded & read.
 
 class BaseConfiguration:
 
+    workingDir = None
     sections = []
     content = {}
     configFileTypes = [
@@ -36,6 +39,10 @@ class BaseConfiguration:
             return True
         else:
             return False
+
+    def get_working_dir(self):
+        """Get current working directory"""
+        self.workingDir = os.path.abspath(os.curdir)
 
     def parse_path(self, fullPath):
         """Separate file name & path"""
