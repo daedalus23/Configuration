@@ -40,7 +40,7 @@ class Single(BaseConfiguration):
         if not found:
             raise ValueError('No config file found!')
         for name in self.sections:
-            self.content[name] = {key: parse_value(val) for key, val in parser.items(name)}
+            self.content[name] = {key: self.parse_value(val) for key, val in parser.items(name)}
 
     def _single_load_sections(self) -> None:
         """Load all sections of ini file into class sections list."""
